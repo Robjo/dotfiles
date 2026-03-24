@@ -1,402 +1,261 @@
-/* =============================================================================
-*
-* Waybar configuration - Modern Style (Simplified)
-*
-* Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
-*
-* =========================================================================== */
+/* Pastel TTY Colors */
+@define-color background #212121;
+@define-color background-light #3a3a3a;
+@define-color foreground #e0e0e0;
+@define-color black #5a5a5a;
+@define-color red #ff9a9e;
+@define-color green #b5e8a9;
+@define-color yellow #ffe6a7;
+@define-color blue #63a4ff;
+@define-color magenta #dda0dd;
+@define-color cyan #a3e8e8;
+@define-color white #ffffff;
+@define-color orange #ff8952;
 
-@import "themes/kanagawa.css";
+/* Module-specific colors */
+@define-color workspaces-color @foreground;
+@define-color workspaces-focused-bg @green;
+@define-color workspaces-focused-fg @cyan;
+@define-color workspaces-urgent-bg @red;
+@define-color workspaces-urgent-fg @black;
 
-/* -----------------------------------------------------------------------------
-* Base styles
-* -------------------------------------------------------------------------- */
+/* Text and border colors for modules */
+@define-color mode-color @orange;
+@define-color group-hardware-color @blue;
+@define-color group-session-color @red;
+@define-color clock-color @blue;
+@define-color cpu-color @green;
+@define-color memory-color @magenta;
+@define-color temperature-color @yellow;
+@define-color temperature-critical-color @red;
+@define-color battery-color @cyan;
+@define-color battery-charging-color @green;
+@define-color battery-warning-color @yellow;
+@define-color battery-critical-color @red;
+@define-color network-color @blue;
+@define-color network-disconnected-color @red;
+@define-color pulseaudio-color @orange;
+@define-color pulseaudio-muted-color @red;
+@define-color wireplumber-color @orange;
+@define-color wireplumber-muted-color @red;
+@define-color backlight-color @yellow;
+@define-color disk-color @cyan;
+@define-color updates-color @orange;
+@define-color quote-color @green;
+@define-color idle-inhibitor-color @foreground;
+@define-color idle-inhibitor-active-color @red;
+@define-color power-profiles-daemon-color @cyan;
+@define-color power-profiles-daemon-performance-color @red;
+@define-color power-profiles-daemon-balanced-color @yellow;
+@define-color power-profiles-daemon-power-saver-color @green;
 
 * {
+    /* Base styling for all modules */
     border: none;
     border-radius: 0;
-    font-family: "JetBrains Mono", "Hack Nerd Font", "UbuntuMono", monospace;
+    font-family: "JetBrainsMono Nerd Font Propo";
     font-size: 14px;
-    font-weight: 600;
     min-height: 0;
-    padding: 0;
-    margin: 0;
 }
 
 window#waybar {
-    background: rgba(15, 15, 20, 0.3);
-    border-bottom: 1px solid rgba(149, 127, 184, 0.3);
+    background-color: @background;
+    color: @foreground;
 }
 
-/* -----------------------------------------------------------------------------
-* Tooltips
-* -------------------------------------------------------------------------- */
 
-tooltip {
-    background: @background-primary;
-    color: @text;
-    border: 1px solid @border-color;
-    border-radius: 8px;
-    padding: 8px 12px;
-}
-
-tooltip label {
-    color: @text;
-    font-size: 12px;
-}
-
-/* -----------------------------------------------------------------------------
-* Workspaces
-* -------------------------------------------------------------------------- */
-
-#workspaces {
-    background: @background-primary;
-    padding: 4px;
-    margin: 6px 2px;
-    border-radius: 12px;
-    border: 2px solid @border-color;
-}
-
-#workspaces button {
-    padding: 6px 10px;
+/* Common module styling with border-bottom */
+#mode,
+#custom-hardware-wrap,
+#custom-session-wrap,
+#clock,
+#cpu,
+#memory,
+#temperature,
+#battery,
+#network,
+#pulseaudio,
+#wireplumber,
+#backlight,
+#disk,
+#power-profiles-daemon,
+#idle_inhibitor,
+#tray {
+    padding: 0 10px;
     margin: 0 2px;
-    background: @background-primary;
-    color: @subtext0;
-    border-radius: 8px;
-    font-weight: bold;
-    border: 1px solid @border-color;
+    border-bottom: 2px solid transparent;
+    background-color: transparent;
+}
+
+/* Workspaces styling */
+#workspaces button {
+    padding: 0 10px;
+    background-color: transparent;
+    color: @workspaces-color;
+    margin: 0;
 }
 
 #workspaces button:hover {
-    background: @background-hover;
-    color: @lavender;
-    border-color: @mauve;
+    background: @background-light;
+    box-shadow: inherit;
 }
 
-#workspaces button.active,
 #workspaces button.focused {
-    background: @mauve;
-    color: @base;
-    font-weight: bold;
-    opacity: 1;
-    border-color: @pink;
-}
-
-#workspaces button.empty {
-    opacity: 0.3;
-    background: @background-secondary;
+    box-shadow: inset 0 -2px @workspaces-focused-fg;
+    color: @workspaces-focused-fg;
+    font-weight: 900;
 }
 
 #workspaces button.urgent {
-    background: @error;
-    color: @base;
-    border-color: @maroon;
+    background-color: @workspaces-urgent-bg;
+    color: @workspaces-urgent-fg;
 }
 
-/* -----------------------------------------------------------------------------
-* Window title
-* -------------------------------------------------------------------------- */
-
-#window {
-    background: @background-secondary;
-    color: @text;
-    padding: 8px 16px;
-    border-radius: 12px;
-    border: 1px solid @border-color;
-    font-weight: 500;
+/* Module-specific styling */
+#mode {
+    color: @mode-color;
+    border-bottom-color: @mode-color;
 }
 
-/* -----------------------------------------------------------------------------
-* Clock
-* -------------------------------------------------------------------------- */
+#custom-hardware-wrap {
+    color: @group-hardware-color;
+    border-bottom-color: @group-hardware-color;
+}
+
+#custom-session-wrap {
+    color: @group-session-color;
+    border-bottom-color: @group-session-color;
+}
 
 #clock {
-    background: @blue;
-    color: @base;
-    font-weight: bold;
-    margin: 6px 2px 6px 2px;
-    padding: 8px 12px;
-    border-radius: 12px;
-    font-size: 15px;
-}
-
-/* -----------------------------------------------------------------------------
-* System monitoring modules
-* -------------------------------------------------------------------------- */
-
-#memory {
-    background: @background-primary;
-    color: @green;
-    border-left: 4px solid @green;
-    border-radius: 12px 0 0 12px;
-    margin: 6px 0;
-    padding: 8px 12px;
+    color: @clock-color;
+    border-bottom-color: @clock-color;
 }
 
 #cpu {
-    background: @background-primary;
-    color: @blue;
-    border-left: 4px solid @blue;
-    margin: 6px 0px 6px 0;
-    padding: 8px 12px;
+    color: @cpu-color;
+    border-bottom-color: @cpu-color;
+}
+
+#memory {
+    color: @memory-color;
+    border-bottom-color: @memory-color;
 }
 
 #temperature {
-    background: @background-primary;
-    color: @teal;
-    border-left: 4px solid @teal;
-    border-radius: 0 12px 12px 0;
-    margin: 6px 2px 6px 0;
-    padding: 8px 12px;
+    color: @temperature-color;
+    border-bottom-color: @temperature-color;
 }
 
 #temperature.critical {
-    background: @error;
-    color: @base;
-    border-left: 4px solid @maroon;
+    color: @temperature-critical-color;
+    border-bottom-color: @temperature-critical-color;
 }
 
-/* -----------------------------------------------------------------------------
-* Battery
-* -------------------------------------------------------------------------- */
+
+#power-profiles-daemon {
+    color: @power-profiles-daemon-color;
+    border-bottom-color: @power-profiles-daemon-color;
+}
+
+#power-profiles-daemon.performance {
+    color: @power-profiles-daemon-performance-color;
+    border-bottom-color: @power-profiles-daemon-performance-color;
+}
+
+#power-profiles-daemon.balanced {
+    color: @power-profiles-daemon-balanced-color;
+    border-bottom-color: @power-profiles-daemon-balanced-color;
+}
+
+#power-profiles-daemon.power-saver {
+    color: @power-profiles-daemon-power-saver-color;
+    border-bottom-color: @power-profiles-daemon-power-saver-color;
+}
 
 #battery {
-    background: @background-primary;
-    color: @green;
-    border-left: 4px solid @green;
-    margin: 6px 2px;
-    padding: 8px 12px;
-    border-radius: 12px;
+    color: @battery-color;
+    border-bottom-color: @battery-color;
 }
 
-#battery.charging {
-    color: @yellow;
-    border-left: 4px solid @yellow;
+#battery.charging,
+#battery.plugged {
+    color: @battery-charging-color;
+    border-bottom-color: @battery-charging-color;
 }
 
-#battery.warning {
-    background: @warning;
-    color: @base;
-    border-left: 4px solid @peach;
+#battery.warning:not(.charging) {
+    color: @battery-warning-color;
+    border-bottom-color: @battery-warning-color;
 }
 
 #battery.critical:not(.charging) {
-    background: @error;
-    color: @base;
-    border-left: 4px solid @maroon;
+    color: @battery-critical-color;
+    border-bottom-color: @battery-critical-color;
 }
-
-/* -----------------------------------------------------------------------------
-* Audio and Backlight
-* -------------------------------------------------------------------------- */
-
-#backlight {
-    background: @background-primary;
-    color: @yellow;
-    border-left: 4px solid @yellow;
-    border-radius: 12px 0 0 12px;
-    margin: 6px 0 6px 2px;
-    padding: 8px 12px;
-}
-
-#pulseaudio {
-    background: @background-primary;
-    color: @yellow;
-    border-left: 4px solid @yellow;
-    border-radius: 0 12px 12px 0;
-    margin: 6px 2px 6px 0;
-    padding: 8px 12px;
-}
-
-#pulseaudio.muted {
-    color: @subtext0;
-    border-left: 4px solid @subtext0;
-}
-
-/* -----------------------------------------------------------------------------
-* Network
-* -------------------------------------------------------------------------- */
 
 #network {
-    background: @background-primary;
-    color: @green;
-    border-left: 4px solid @green;
-    margin: 6px 2px;
-    padding: 8px 12px;
-    border-radius: 12px;
+    color: @network-color;
+    border-bottom-color: @network-color;
 }
 
 #network.disconnected {
-    color: @error;
-    border-left: 4px solid @error;
+    color: @network-disconnected-color;
+    border-bottom-color: @network-disconnected-color;
 }
 
-#network.disabled {
-    color: @subtext0;
-    border-left: 4px solid @subtext0;
+#pulseaudio {
+    color: @pulseaudio-color;
+    border-bottom-color: @pulseaudio-color;
 }
 
-/* -----------------------------------------------------------------------------
-* Language
-* -------------------------------------------------------------------------- */
-
-#language {
-    background: @background-primary;
-    color: @mauve;
-    border-left: 4px solid @mauve;
-    margin: 6px 0 6px 2px;
-    padding: 8px 12px;
-    border-radius: 12px 0 0 12px;
+#pulseaudio.muted {
+    color: @pulseaudio-muted-color;
+    border-bottom-color: @pulseaudio-muted-color;
 }
 
-#keyboard-state {
-    background: @background-primary;
-    color: @mauve;
-    border-left: 4px solid @mauve;
-    margin: 6px 2px 6px 0;
-    padding: 8px 12px;
-    border-radius: 0 12px 12px 0;
+#wireplumber {
+    color: @wireplumber-color;
+    border-bottom-color: @wireplumber-color;
 }
 
-/* -----------------------------------------------------------------------------
-* Custom modules
-* -------------------------------------------------------------------------- */
-
-#custom-launcher {
-    background: @mauve;
-    color: @base;
-    font-size: 16px;
-    font-weight: bold;
-    margin: 6px 2px 6px 8px;
-    padding: 8px 14px 8px 10px;
-    border-radius: 12px;
-    border: 2px solid @pink;
+#wireplumber.muted {
+    color: @wireplumber-muted-color;
+    border-bottom-color: @wireplumber-muted-color;
 }
 
-#custom-weather {
-    background: @background-primary;
-    color: @blue;
-    border-left: 4px solid @blue;
-    margin: 6px 2px;
-    padding: 8px 12px;
-    border-radius: 12px;
+#backlight {
+    color: @backlight-color;
+    border-bottom-color: @backlight-color;
 }
 
-#custom-updates {
-    background: @background-primary;
-    color: @yellow;
-    border-left: 4px solid @yellow;
-    margin: 6px 2px;
-    padding: 8px 12px;
-    border-radius: 12px;
+#disk {
+    color: @disk-color;
+    border-bottom-color: @disk-color;
 }
-
-#custom-updates.has-updates {
-    background: @warning;
-    color: @base;
-    border-left: 4px solid @peach;
-}
-
-#custom-vpn {
-    background: @background-primary;
-    color: @teal;
-    border-left: 4px solid @teal;
-    margin: 6px 2px;
-    padding: 8px 12px;
-    border-radius: 12px;
-}
-
-#custom-vpn.connected {
-    color: @success;
-    border-left: 4px solid @success;
-}
-
-#custom-notification {
-    background: @background-primary;
-    color: @lavender;
-    border-left: 4px solid @lavender;
-    margin: 6px 2px;
-    padding: 8px 12px;
-    border-radius: 12px;
-}
-
-#custom-cava {
-    background: @background-primary;
-    color: @green;
-    border-left: 4px solid @green;
-    margin: 6px 2px;
-    padding: 8px 12px;
-    border-radius: 12px;
-}
-
-/* -----------------------------------------------------------------------------
-* Tray
-* -------------------------------------------------------------------------- */
-
-#tray {
-    background: @background-secondary;
-    padding: 6px 10px;
-    margin: 6px 8px 6px 2px;
-    border-radius: 12px;
-    border: 1px solid @border-color;
-}
-
-#tray > .passive {
-    opacity: 0.7;
-}
-
-#tray > .needs-attention {
-    background-color: @error;
-    border-radius: 6px;
-    color: @base;
-}
-
-/* -----------------------------------------------------------------------------
-* Idle inhibitor
-* -------------------------------------------------------------------------- */
 
 #idle_inhibitor {
-    background: @background-primary;
-    color: @yellow;
-    border-left: 4px solid @yellow;
-    margin: 6px 2px;
-    padding: 8px 12px;
-    border-radius: 12px;
+    color: @idle-inhibitor-color;
+    border-bottom-color: transparent;
 }
 
 #idle_inhibitor.activated {
-    background: @yellow;
-    border-left: 4px solid @background-primary;
-    color: @base;
+    color: @idle-inhibitor-active-color;
+    border-bottom-color: @idle-inhibitor-active-color;
 }
 
-#mode {
-    background: @warning;
-    color: @base;
-    font-weight: bold;
-    padding: 8px 16px;
-    margin: 6px 8px;
-    border-radius: 12px;
+#tray {
+    background-color: transparent;
+    padding: 0 10px;
+    margin: 0 2px;
 }
 
-/* -----------------------------------------------------------------------------
-* Hover effects
-* -------------------------------------------------------------------------- */
+#tray>.passive {
+    -gtk-icon-effect: dim;
+}
 
-#clock:hover,
-#battery:hover,
-#cpu:hover,
-#memory:hover,
-#temperature:hover,
-#backlight:hover,
-#network:hover,
-#pulseaudio:hover,
-#custom-launcher:hover,
-#custom-notification:hover,
-#custom-weather:hover,
-#custom-updates:hover,
-#custom-vpn:hover,
-#language:hover,
-#custom-cava:hover {
-    opacity: 0.8;
+#tray>.needs-attention {
+    -gtk-icon-effect: highlight;
+    color: @red;
+    border-bottom-color: @red;
 }
