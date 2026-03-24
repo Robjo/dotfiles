@@ -1,1 +1,2 @@
-# dotfiles
+# Dotfiles
+Minimal effort dotfiles
