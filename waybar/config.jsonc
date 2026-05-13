@@ -6,8 +6,8 @@
     "margin": 0,
     "modules-left": [
         "group/hardware",
-        "hyprland/workspaces",
-        "hyprland/window"
+        "hyprland/workspaces"
+       // "hyprland/window"
     ],
     "modules-center": [
         "clock"
@@ -27,9 +27,9 @@
             "default": ""
         }
     },
-    "hyprland/window": {
+     "hyprland/window": {
     	"format": "<span color='#FFD700'>  {title}</span>",
-    },
+    }, 
     "custom/hardware-wrap": {
     	  "format": "",
     	  "tooltip-format": "Resource Usage"
@@ -74,13 +74,13 @@
     },
     "custom/reboot": {
         "format": "<span color='#FFD700'>  </span>",
-        "on-click": "reboot",
+        "on-click": "systemctl reboot",
         "tooltip": true,
         "tooltip-format": "Reboot"
     },
     "custom/power": {
         "format": "<span color='#FF4040'>  </span>",
-        "on-click": "poweroff",
+        "on-click": "systemctl poweroff",
         "tooltip": true,
         "tooltip-format": "Power Off"
     },
