@@ -49,7 +49,7 @@ hl.env("HYPRCURSOR_THEME","rose-pine-hyprcursor")
 hl.config({
     general = {
         gaps_in  = 5,
-        gaps_out = 20,
+        gaps_out = 8,
 
         border_size = 2,
 
